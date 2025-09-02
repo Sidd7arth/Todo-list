@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();   // for redirecting
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -18,13 +20,24 @@ const Login = () => {
       return;
     }
 
-    setError("");
-    console.log("Logging in with:", { email, password });
-    // TODO: connect to backend API
+    try {
+      const res = await axios.post("http://localhost:3001/login", {
+        email,
+        password,
+      });
+
+      if (res.status === 200) {
+        setError("");
+        console.log("Login successful:", res.data);
+        navigate("/"); // redirect to home page
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Try again.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-end bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Sign In
@@ -37,7 +50,6 @@ const Login = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -51,7 +63,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Password
@@ -65,7 +76,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition"

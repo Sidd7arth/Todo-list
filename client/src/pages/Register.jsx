@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
@@ -23,13 +25,25 @@ const Register = () => {
       return;
     }
 
-    setError("");
-    console.log("Registering with:", { name, email, password });
-    // TODO: send to backend API
+    try {
+      const res = await axios.post("http://localhost:3001/register", {
+        name,
+        email,
+        password,
+      });
+
+      if (res.status === 200) {
+        setError("");
+        console.log("Registration successful:", res.data);
+        navigate("/"); // redirect to home page
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-end bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           📝 Sign Up
@@ -42,7 +56,6 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
@@ -56,7 +69,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -70,7 +82,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Password
@@ -84,7 +95,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-md transition"
