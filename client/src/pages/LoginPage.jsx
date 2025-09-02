@@ -5,8 +5,9 @@ import axios from "axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
   const [error, setError] = useState("");
-  const navigate = useNavigate();   // for redirecting
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,6 @@ const Login = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Sign In
         </h2>
-
         {error && (
           <p className="mb-4 text-sm text-red-500 bg-red-100 p-2 rounded">
             {error}
@@ -50,6 +50,7 @@ const Login = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -63,19 +64,32 @@ const Login = () => {
             />
           </div>
 
+          {/* Password Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} 
               placeholder="Enter your password"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+
+            {/* Show Password Checkbox */}
+            <div className="flex items-center mt-2">
+              <input
+                type="checkbox"
+                className="mr-2"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <label className="text-sm text-gray-600">Show Password</label>
+            </div>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition"
@@ -84,6 +98,7 @@ const Login = () => {
           </button>
         </form>
 
+        {/* Register Link */}
         <p className="mt-6 text-sm text-center text-gray-600">
           Don’t have an account?{" "}
           <Link
