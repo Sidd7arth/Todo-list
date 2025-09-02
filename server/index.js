@@ -60,7 +60,7 @@ app.post('/login', async (req, res) => {
 
         // generate JWT token
         const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
-            expiresIn: "1h",
+            expiresIn: "60s",
         });
 
         res.json({ 
