@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Link } from "react-router-dom";
+
 
 const UpdateUser = () => {
     const {id}=useParams()
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [age, setAge] = useState()
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -35,28 +38,30 @@ const UpdateUser = () => {
     }
     
   return (
+    
     <div className='d-flex vh-100 bg-info justify-content-center align-items-center'>
-        <div className='w-75 bg-white rounded p-3'>
+        <div className='w-50 bg-white rounded p-3'>
             <form onSubmit={update}>
                 <h2>Update User</h2>
                 <div className='mb-2'>
                     <label htmlFor="">Name</label>
-                    <input type="text" placeholder='Enter Name' className='form-control' 
+                    <input type="text" placeholder='Enter Name' className='form-control' required
                         value={name} onChange={(e)=>setName(e.target.value)}/>
                 </div>
                 <div className='mb-2'>
                     <label htmlFor="">Email</label>
-                    <input type="text" placeholder='Enter Email' className='form-control' 
+                    <input type="text" placeholder='Enter Email' className='form-control' required
                         value={email} onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
                 <div className='mb-2'>
                     <label htmlFor="">Age</label>
-                    <input type="text" placeholder='Enter Age' className='form-control' 
+                    <input type="text" placeholder='Enter Age' className='form-control' required
                         value={age} onChange={(e)=>setAge(e.target.value)}/>
                 </div>
                 <button className='btn btn-success'>Update</button>
             </form>
         </div>
+        <Link to="/login"><button className='fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow'>Logout</button></Link>
     </div>
   )
 }

@@ -22,6 +22,26 @@ app.get('/getUser/:id', (req, res) => {
     .catch(err => res.json(err))
 })
 
+app.post('/register', (req, res) => {
+    const { name, email, password } = req.body;
+    UserModel.create({ name, email, password })
+    .then(user => res.json(user))
+    .catch(err => res.json(err))
+})
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    UserModel.findOne({ email, password })
+    .then(user => {
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(401).json({ message: 'Invalid credentials' });
+        }
+    })
+    .catch(err => res.json(err));
+});
+
 app.put('/updateUser/:id', (req, res) => {
     const id = req.params.id;
     UserModel.findByIdAndUpdate({_id: id}, 

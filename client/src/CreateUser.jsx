@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const CreateUser = () => {
     const [name, setName] = useState()
@@ -29,24 +30,25 @@ const CreateUser = () => {
                 <h2 className='text-center'>Add User</h2>
                 <div className='mb-2'>
                     <label htmlFor="">Name</label>
-                    <input type="text" placeholder='Enter Name' className='form-control' 
+                    <input type="text" placeholder='Enter your Name' className='form-control' 
                         onChange={(e)=>setName(e.target.value)}/>
                 </div>
                 <div className='mb-2'>
                     <label htmlFor="">Email</label>
-                    <input type="text" placeholder='Enter Email' className='form-control' 
+                    <input type="text" placeholder='Enter your Email' className='form-control' 
                         onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
                 <div className='mb-2'>
                     <label htmlFor="">Age</label>
-                    <input type="text" placeholder='Enter Age' className='form-control' 
+                    <input type="text" placeholder='Enter your Age' className='form-control' 
                         onChange={(e)=>setAge(e.target.value)}/>
                 </div>
                 <button className='btn btn-success'>Submit</button>
             </form>
         </div>
+        <Link to="/login"><button className='fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow'>Logout</button></Link>
     </div>
   )
 }
 
-export default CreateUser;
+export default CreateUser; 
