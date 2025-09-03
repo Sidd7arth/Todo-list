@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -32,13 +34,14 @@ const Register = () => {
         password,
       });
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         setError("");
-        console.log("Registration successful:", res.data);
-        navigate("/"); // redirect to home page
+        toast.success("Registration successful 🎉");
+        setTimeout(() => navigate("/login"), 2000); // redirect after toast
       }
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed.");
+      toast.error(err.response?.data?.message || "Registration failed ❌");
     }
   };
 
@@ -113,6 +116,9 @@ const Register = () => {
           </Link>
         </p>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 };

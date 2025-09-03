@@ -14,7 +14,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/CRUD');
 // Secret key for JWT
 const JWT_SECRET = "mysecretkey";
 
-// ---------------- Register ----------------
+// ---------------- Register ---------------- \\
 app.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -64,7 +64,7 @@ app.post('/login', async (req, res) => {
         });
 
         res.json({ 
-            token, 
+            token,
             user: { id: user._id, name: user.name, email: user.email } 
         });
     } catch (err) {

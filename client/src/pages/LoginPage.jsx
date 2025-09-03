@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,10 +16,12 @@ const Login = () => {
 
     if (!email || !password) {
       setError("Both fields are required.");
+      toast.error("Both fields are required ");
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Enter a valid email.");
+      toast.error("Enter a valid email ");
       return;
     }
 
@@ -29,11 +33,13 @@ const Login = () => {
 
       if (res.status === 200) {
         setError("");
-        console.log("Login successful:", res.data);
-        navigate("/"); // redirect to home page
+        toast.success("Login successful 🎉");
+        setTimeout(() => navigate("/"), 2000); // redirect after toast
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Try again.");
+      const errorMessage = err.response?.data?.message || "Login failed. Try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -109,6 +115,9 @@ const Login = () => {
           </Link>
         </p>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 };
